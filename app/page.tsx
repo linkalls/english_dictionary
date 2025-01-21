@@ -23,25 +23,35 @@ export default function SearchPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col py-8 px-4">
+    <div className="min-h-screen flex flex-col py-8 px-4 bg-gradient-to-br from-indigo-600 to-purple-700 text-white">
       <div className="mb-8">
-        <h1 className="text-center font-bold text-3xl">
+        <h1 className="text-center font-extrabold text-4xl md:text-5xl">
           英単語を検索してみよう！！！！
         </h1>
       </div>
-      
-      <div className="w-full max-w-sm mx-auto mb-8">
-        <form action={handleSearch}>
+
+      <div className="w-full max-w-sm mx-auto mb-8 relative">
+        {/* ローディング画面 */}
+        {isLoading && (
+          <div className="absolute inset-0 bg-gray-800/60 backdrop-blur-sm z-10 rounded-lg flex flex-col items-center justify-center gap-4">
+            <div className="w-16 h-16 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+            <div className="text-indigo-200 font-medium animate-pulse text-xl">
+              検索しています...
+            </div>
+          </div>
+        )}
+
+        <form onSubmit={(e) => { e.preventDefault(); handleSearch(new FormData(e.target)); }}>
           <label
             htmlFor="search"
-            className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
+            className="mb-2 text-sm font-medium text-gray-200 sr-only"
           >
             Search
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
               <svg
-                className="w-4 h-4 text-gray-500 dark:text-gray-400"
+                className="w-4 h-4 text-gray-400"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -60,16 +70,24 @@ export default function SearchPage() {
               type="search"
               id="search"
               name="search"
-              className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              disabled={isLoading}
+              className="block w-full p-4 ps-10 text-sm text-gray-900 border-2 border-indigo-300 rounded-lg bg-white/20 backdrop-blur-md focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500 disabled:bg-gray-400 disabled:cursor-not-allowed"
               placeholder="英単語を入力してください"
               required
             />
             <button
               type="submit"
               disabled={isLoading}
-              className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:bg-gray-400"
+              className="text-white absolute end-2.5 bottom-2.5 bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-800 disabled:bg-gray-400 flex items-center gap-2"
             >
-              {isLoading ? "検索中..." : "検索"}
+              {isLoading ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  <span>Loading...</span>
+                </>
+              ) : (
+                "検索"
+              )}
             </button>
           </div>
         </form>
@@ -77,15 +95,26 @@ export default function SearchPage() {
 
       <div className="flex flex-col items-center space-y-4">
         {error && (
-          <div className="text-red-500 text-center p-4 w-full max-w-2xl">
+          <div className="text-red-300 text-center p-4 w-full max-w-2xl">
             {error}
           </div>
         )}
-        {result && (
-          <div className="w-full max-w-2xl p-6 bg-white rounded-lg shadow">
+        <div className="w-full max-w-2xl min-h-[200px] p-6 bg-white/20 backdrop-blur-md rounded-lg shadow-lg">
+          {isLoading ? (
+            <div className="h-full flex flex-col items-center justify-center gap-4">
+              <div className="w-16 h-16 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+              <div className="text-indigo-400 font-medium animate-pulse">
+                結果を取得しています...
+              </div>
+            </div>
+          ) : result ? (
             <p className="text-center text-lg">{result}</p>
-          </div>
-        )}
+          ) : (
+            <p className="text-center text-gray-300">
+              検索結果がここに表示されます
+            </p>
+          )}
+        </div>
       </div>
     </div>
   );

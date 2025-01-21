@@ -2,7 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
+@keyframes gradientBg {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
 
-html{
-  background-color: #5582dc;
+html {
+  background: linear-gradient(-45deg, #5582dc, #3b82f6, #60a5fa);
+  background-size: 200% 200%;
+  animation: gradientBg 10s ease infinite;
+}
+
+@keyframes bounce-soft {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.loading-bounce {
+  animation: bounce-soft 2s ease-in-out infinite;
 }
