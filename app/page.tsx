@@ -41,7 +41,7 @@ export default function SearchPage() {
           </div>
         )}
 
-        <form onSubmit={(e) => { e.preventDefault(); handleSearch(new FormData(e.target)); }}>
+        <form onSubmit={(e) => { e.preventDefault(); handleSearch(new FormData(e.target as HTMLFormElement)); }}>
           <label
             htmlFor="search"
             className="mb-2 text-sm font-medium text-gray-200 sr-only"
