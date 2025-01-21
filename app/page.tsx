@@ -31,17 +31,13 @@ export default function SearchPage() {
       </div>
 
       <div className="w-full max-w-sm mx-auto mb-8 relative">
-        {/* ローディング画面 */}
-        {isLoading && (
-          <div className="absolute inset-0 bg-gray-800/60 backdrop-blur-sm z-10 rounded-lg flex flex-col items-center justify-center gap-4">
-            <div className="w-16 h-16 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
-            <div className="text-indigo-200 font-medium animate-pulse text-xl">
-              検索しています...
-            </div>
-          </div>
-        )}
 
-        <form onSubmit={(e) => { e.preventDefault(); handleSearch(new FormData(e.target as HTMLFormElement)); }}>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSearch(new FormData(e.target as HTMLFormElement));
+          }}
+        >
           <label
             htmlFor="search"
             className="mb-2 text-sm font-medium text-gray-200 sr-only"
@@ -103,8 +99,8 @@ export default function SearchPage() {
           {isLoading ? (
             <div className="h-full flex flex-col items-center justify-center gap-4">
               <div className="w-16 h-16 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
-              <div className="text-indigo-400 font-medium animate-pulse">
-                結果を取得しています...
+              <div className="text-indigo-200 font-medium animate-pulse text-xl">
+                検索しています...
               </div>
             </div>
           ) : result ? (
